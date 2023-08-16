@@ -1,0 +1,20 @@
+/*
+ * Copyright (c) 2023 by onepisYa pis1@qq.com , All Rights Reserved. 
+ * @Date: 2023-08-17 00:56:07
+ * @LastEditors: onepisYa pis1@qq.com
+ * @LastEditTime: 2023-08-17 00:56:10
+ * @FilePath: /slidev-demo/tsconfig.js
+ * 路漫漫其修远兮，吾将上下而求索。
+ * @Description: 
+ */
+{
+  "compilerOptions": {
+    "module": "esnext",
+    "target": "esnext",
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true
+  },
+  "exclude": [
+    "**/*.md"
+  ]
+}
