@@ -20,7 +20,9 @@ jobs:
           ${{ runner.os }}-
 
     - name: Install dependencies
-      run: pnpm install
+      run: |
+          npm install -g pnpm
+          pnpm install
 
     - uses: tj-actions/changed-files@v35
       id: changed
