@@ -31,6 +31,7 @@ jobs:
           2022-12-10/src/*
     # 下面这些就是需要用脚本生成的内容
     - name: Build 2022-12-10
+      # if: steps.changed.outputs.any_changed == 'true'
       run: pnpm -C 2022-12-10/src run build
     - name: Debug
       run: |
@@ -40,4 +41,4 @@ jobs:
       uses: actions/upload-pages-artifact@v1
       with:
        name: github-pages
-       path: ../../dist/2022/vueuse-best-practice
+       path: dist/2022/vueuse-best-practice
