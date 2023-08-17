@@ -33,6 +33,9 @@ jobs:
     - name: Build 2022-12-10
       if: steps.changed.outputs.any_changed == 'true'
       run: pnpm -C 2022-12-10/src run build
+    - name: Build 2023-05-17
+      if: steps.changed.outputs.any_changed == 'true'
+      run: pnpm -C 2023-05-17/src run build
     - name: Debug
       run: |
         echo "any_changed: ${{ steps.changed.outputs.any_changed }}"
