@@ -6,7 +6,7 @@ lineNumbers: true
 colorSchema: dark
 ---
 
-# VueUse 最佳实践
+# VueUse 最佳实践 
 
 <p text-xl>
 我们在维护 VueUse 两年以来所积累的 Vue 组合式 API 的模式与最佳实践
