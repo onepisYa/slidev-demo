@@ -30,6 +30,10 @@ jobs:
     - name: Build 2022-12-10
       if: steps.changed.outputs.any_changed == 'true'
       run: pnpm -C 2022-12-10/src run build
+    - name: Debug
+      run: |
+        echo "any_changed: ${{ steps.changed.outputs.any_changed }}"
+        ls -la 2022-12-10/src
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v1
       with:
