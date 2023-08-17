@@ -26,9 +26,11 @@ jobs:
 
     - uses: tj-actions/changed-files@v35
       id: changed
+      # 文件修改检测
+      # 2022-12-10/src/*
       with:
         files: |
-          2022-12-10/src/*
+          **/src/*
     # 下面这些就是需要用脚本生成的内容
     - name: Build 2022-12-10
       if: steps.changed.outputs.any_changed == 'true'
