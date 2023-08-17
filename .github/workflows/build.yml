@@ -41,7 +41,7 @@ jobs:
       uses: actions/upload-pages-artifact@v1
       with:
        name: github-pages
-       path: dist/slidev-demo/2022/vueuse-best-practice
+       path: dist/2022/vueuse-best-practice
 
   deploy:
     needs: build
