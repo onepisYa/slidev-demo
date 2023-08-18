@@ -4,6 +4,7 @@ highlighter: shiki
 css: unocss
 lineNumbers: true
 colorSchema: dark
+routerMode: hash
 ---
 
 # VueUse 最佳实践

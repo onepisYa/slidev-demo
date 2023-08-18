@@ -5,6 +5,7 @@ css: unocss
 colorSchema: dark
 transition: fade-out
 growSize: 1.5
+routerMode: hash
 ---
 
 <div mt--2>
