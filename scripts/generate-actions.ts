@@ -4,9 +4,19 @@ import fg from 'fast-glob'
 
 const generateBuildPackage = (dir)=>{
   return `   
+      - uses: tj-actions/changed-files@v35
+        id: changed-${dir}
+        # 文件修改检测
+        with:
+          files: |
+            ${dir}/src/*
       - name: Build ${dir}
-        if: steps.changed.outputs.any_changed == 'true'
-        run: pnpm -C ${dir}/src run build`
+        if: steps.changed-${dir}.outputs.any_changed == 'true'
+        run: pnpm -C ${dir}/src run build
+      - name: Debug
+        run: |
+          echo "any_changed: \${{ steps.changed-${dir}.outputs.any_changed }}"
+        `
   }
   
 const generateActions = (buildsTemplate)=>{
@@ -38,19 +48,8 @@ const generateActions = (buildsTemplate)=>{
         run: |
             npm install -g pnpm
             pnpm install
-  
-      - uses: tj-actions/changed-files@v35
-        id: changed
-        # 文件修改检测
-        with:
-          files: |
-            **/src/*
-      
       # ============ 脚本自动生成 ==============${buildsTemplate}
       # ============ 生成结束 ==============
-      - name: Debug
-        run: |
-          echo "any_changed: \${{ steps.changed.outputs.any_changed }}"
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:

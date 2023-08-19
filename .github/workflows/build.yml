@@ -26,26 +26,35 @@
         run: |
             npm install -g pnpm
             pnpm install
-  
+      # ============ 脚本自动生成 ==============   
       - uses: tj-actions/changed-files@v35
-        id: changed
+        id: changed-2022-12-10
         # 文件修改检测
         with:
           files: |
-            **/src/*
-      
-      # ============ 脚本自动生成 ==============   
+            2022-12-10/src/*
       - name: Build 2022-12-10
-        if: steps.changed.outputs.any_changed == 'true'
+        if: steps.changed-2022-12-10.outputs.any_changed == 'true'
         run: pnpm -C 2022-12-10/src run build
-   
-      - name: Build 2023-05-17
-        if: steps.changed.outputs.any_changed == 'true'
-        run: pnpm -C 2023-05-17/src run build
-      # ============ 生成结束 ==============
       - name: Debug
         run: |
-          echo "any_changed: ${{ steps.changed.outputs.any_changed }}"
+          echo "any_changed: ${{ steps.changed-2022-12-10.outputs.any_changed }}"
+        
+   
+      - uses: tj-actions/changed-files@v35
+        id: changed-2023-05-17
+        # 文件修改检测
+        with:
+          files: |
+            2023-05-17/src/*
+      - name: Build 2023-05-17
+        if: steps.changed-2023-05-17.outputs.any_changed == 'true'
+        run: pnpm -C 2023-05-17/src run build
+      - name: Debug
+        run: |
+          echo "any_changed: ${{ steps.changed-2023-05-17.outputs.any_changed }}"
+        
+      # ============ 生成结束 ==============
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
