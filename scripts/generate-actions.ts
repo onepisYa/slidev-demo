@@ -84,7 +84,11 @@ const generateActions = async (buildsTemplate)=>{
   
       runs-on: ubuntu-latest
       steps:
+        - name: Debug
+          run: |
+            echo "any_changed: \${{env.built}}"
         - name: Deploy to GitHub Pages
+          if: env.built == true
           id: deployment
           uses: actions/deploy-pages@v2
           with:
