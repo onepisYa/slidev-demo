@@ -7,6 +7,8 @@
   jobs:
     build:
       runs-on: ubuntu-latest
+      env:
+        LastArtiFact: onepisya-github-pages-1692549445423
       # 缓存 
       steps:
       - uses: actions/checkout@v3
@@ -58,7 +60,7 @@
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: onepisya-github-pages-1692548316454
+          name: onepisya-github-pages-1692549793523
           path: dist/
           retention-days: 90
 
@@ -77,6 +79,8 @@
         - name: Deploy to GitHub Pages
           id: deployment
           uses: actions/deploy-pages@v2
+          with:
+            artifact_name: onepisya-github-pages-1692549793523
         - name: show messages
           run: |
             echo ${{ steps.deployment.outputs.page_url }}

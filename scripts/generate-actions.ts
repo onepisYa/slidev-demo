@@ -2,6 +2,8 @@ import fs from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
 import fg from 'fast-glob'
 
+const env = 'onepisya-github-pages'
+const pagesName = `${env}-`
 const generateBuildPackage = (dir)=>{
   return `   
       - uses: tj-actions/changed-files@v35
@@ -18,8 +20,16 @@ const generateBuildPackage = (dir)=>{
           echo "any_changed: \${{ steps.changed-${dir}.outputs.any_changed }}"
         `
   }
-  
-const generateActions = (buildsTemplate)=>{
+
+const getLastBuild = async ()=>{
+  const buildYml = await fs.readFile('./.github/workflows/build.yml', 'utf-8');
+  const lastBuild = buildYml.match(new RegExp(`${pagesName}(\\d+)`))?.[1]
+  return lastBuild
+}
+
+const generateActions = async (buildsTemplate)=>{
+  const now = new Date().getTime();
+
     return`
   name: Build
   on: 
@@ -29,6 +39,8 @@ const generateActions = (buildsTemplate)=>{
   jobs:
     build:
       runs-on: ubuntu-latest
+      env:
+        LastArtiFact: onepisya-github-pages-${await getLastBuild()}
       # 缓存 
       steps:
       - uses: actions/checkout@v3
@@ -51,11 +63,12 @@ const generateActions = (buildsTemplate)=>{
       # ============ 脚本自动生成 ==============${buildsTemplate}
       # ============ 生成结束 ==============
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-artifact@v3
         with:
-         name: github-pages
-         path: dist/
-  
+          name: ${pagesName}${now}
+          path: dist/
+          retention-days: 90
+
     deploy:
       needs: build
       permissions:
@@ -71,6 +84,8 @@ const generateActions = (buildsTemplate)=>{
         - name: Deploy to GitHub Pages
           id: deployment
           uses: actions/deploy-pages@v2
+          with:
+            artifact_name: ${pagesName}${now}
         - name: show messages
           run: |
             echo \${{ steps.deployment.outputs.page_url }}
@@ -126,6 +141,7 @@ const builds = bases
   .join('\n')
 
 
-await fs.writeFile('./.github/workflows/build.yml', generateActions(builds), 'utf-8')
+const actions = await generateActions(builds)
+await fs.writeFile('./.github/workflows/build.yml', actions, 'utf-8')
 
 console.log("You generated actions!")
