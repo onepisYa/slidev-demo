@@ -47,6 +47,7 @@ const generateActions = async (buildsTemplate)=>{
       env:
         LastArtiFact: onepisya-github-pages-${await getLastBuild()}
         built: false
+        INPUT_PATH: "/dist/"
       environment:
         name: ${env}
         url: \${{ steps.deployment.outputs.page_url }}
@@ -75,13 +76,30 @@ const generateActions = async (buildsTemplate)=>{
         run: |
           echo "built: \${{env.built}}"
 
+      - name: Tar Files # use upload-pages-artifact@v1 source code, i just need a linux
+        shell: sh
+        if: \${{env.built}} == true
+        run: |
+            chmod -c -R +rX "$INPUT_PATH" | while read line; do
+              echo "::warning title=Invalid file permissions automatically fixed::$line"
+            done
+            tar \
+              --dereference --hard-dereference \
+              --directory "$INPUT_PATH" \
+              -cvf "$RUNNER_TEMP/artifact.tar" \
+              --exclude=.git \
+              --exclude=.github \
+              .
+
       - name: Upload artifact
         if: \${{env.built}} == true
-        id: upload-artifact
-        uses: actions/upload-pages-artifact@v1
+        id: upload
+        uses: actions/upload-artifact@v3
         with:
           name: ${pagesName}${now}
-          path: dist/
+          path: \${{ runner.temp }}/artifact.tar
+          retention-days: 90
+          if-no-files-found: error
 
       - name: Deploy to GitHub Pages
         if: \${{env.built}} == true

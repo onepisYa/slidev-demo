@@ -74,6 +74,7 @@
           echo "built: ${{env.built}}"
 
       - name: Tar Files # use upload-pages-artifact@v1 source code, i just need a linux
+        shell: sh
         if: ${{env.built}} == true
         run: |
             chmod -c -R +rX "$INPUT_PATH" | while read line; do
@@ -86,7 +87,7 @@
         id: upload
         uses: actions/upload-artifact@v3
         with:
-          name: onepisya-github-pages-1692566918884
+          name: onepisya-github-pages-1692567191417
           path: ${{ runner.temp }}/artifact.tar
           retention-days: 90
           if-no-files-found: error
@@ -96,7 +97,7 @@
         id: deployment
         uses: actions/deploy-pages@v2
         with:
-          artifact_name: onepisya-github-pages-1692566918884
+          artifact_name: onepisya-github-pages-1692567191417
       - name: show messages
         run: |
           echo ${{ steps.deployment.outputs.page_url }}
