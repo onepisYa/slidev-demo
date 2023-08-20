@@ -72,7 +72,7 @@ const generateActions = async (buildsTemplate)=>{
       # ============ 脚本自动生成 ==============${buildsTemplate}
       # ============ 生成结束 ==============
       - name: Upload artifact
-        if: env.built == true
+        if: \${{env.built}} == true
         uses: actions/upload-pages-artifact@v1
         with:
           name: ${pagesName}${now}
@@ -82,7 +82,7 @@ const generateActions = async (buildsTemplate)=>{
         run: |
           echo "any_changed: \${{env.built}}"
       - name: Deploy to GitHub Pages
-        if: env.built == true
+        if: \${{env.built}} == true
         id: deployment
         uses: actions/deploy-pages@v2
         with:

@@ -69,21 +69,21 @@
         
       # ============ 生成结束 ==============
       - name: Upload artifact
-        if: env.built == true
+        if: ${{env.built}} == true
         uses: actions/upload-pages-artifact@v1
         with:
-          name: onepisya-github-pages-1692562651347
+          name: onepisya-github-pages-1692563036688
           path: dist/
 
       - name: Debug
         run: |
           echo "any_changed: ${{env.built}}"
       - name: Deploy to GitHub Pages
-        if: env.built == true
+        if: ${{env.built}} == true
         id: deployment
         uses: actions/deploy-pages@v2
         with:
-          artifact_name: onepisya-github-pages-1692562651347
+          artifact_name: onepisya-github-pages-1692563036688
       - name: show messages
         run: |
           echo ${{ steps.deployment.outputs.page_url }}
