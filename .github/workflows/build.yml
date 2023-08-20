@@ -8,7 +8,7 @@
     build:
       runs-on: ubuntu-latest
       env:
-        LastArtiFact: onepisya-github-pages-undefined
+        LastArtiFact: onepisya-github-pages-1692557465484
       # 缓存 
       steps:
       - uses: actions/checkout@v3
@@ -58,9 +58,9 @@
         
       # ============ 生成结束 ==============
       - name: Upload artifact
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-pages-artifact@v1
         with:
-          name: github-pages
+          name: onepisya-github-pages-1692557483823
           path: dist/
 
     deploy:
@@ -70,7 +70,7 @@
         id-token: write
   
       environment:
-        name: github-pages
+        name: onepisya-github-pages
         url: ${{ steps.deployment.outputs.page_url }}
   
       runs-on: ubuntu-latest
@@ -78,6 +78,8 @@
         - name: Deploy to GitHub Pages
           id: deployment
           uses: actions/deploy-pages@v2
+          with:
+            artifact_name: onepisya-github-pages-1692557483823
         - name: show messages
           run: |
             echo ${{ steps.deployment.outputs.page_url }}
