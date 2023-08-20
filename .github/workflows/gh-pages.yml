@@ -79,6 +79,6 @@
         - name: Deploy to GitHub Pages
           uses: peaceiris/actions-gh-pages@v3.9.3 # tag: Better
           with:
-            github_token: ${{ secrets.GITHUB_TOKEN }}
-            publish_dir: ./public
-  
+            publish_branch: gh-pages  # default: gh-pages
+            personal_token: ${{ secrets.PERSONAL_TOKEN }}
+            publish_dir: ./dist
