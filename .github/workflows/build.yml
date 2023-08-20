@@ -91,17 +91,17 @@
         id: upload
         uses: actions/upload-artifact@v3
         with:
-          name: onepisya-github-pages-1692568612426
+          name: onepisya-github-pages-1692569143386
           path: ${{ runner.temp }}/artifact.tar
           retention-days: 90
-          if-no-files-found: error
+          if-no-files-found: warn # default: error
 
       - name: Deploy to GitHub Pages
         if: ${{env.built}} == true
         id: deployment
         uses: actions/deploy-pages@v2
         with:
-          artifact_name: onepisya-github-pages-1692568612426
+          artifact_name: onepisya-github-pages-1692569143386
       - name: show messages
         run: |
           echo ${{ steps.deployment.outputs.page_url }}

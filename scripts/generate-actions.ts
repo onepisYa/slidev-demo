@@ -79,7 +79,7 @@ const generateActions = async (buildsTemplate)=>{
       - name: Tar Files # use upload-pages-artifact@v1 source code, i just need a linux
         shell: sh
         run: |
-            if [ "\${{ env.built }}" == "true" ]; then
+            if [ -v GITHUB_ENV[built] == "true" ]; then
               # compress files
               chmod -c -R +rX "$INPUT_PATH" | while read line; do
                 echo "::warning title=Invalid file permissions automatically fixed::$line"
@@ -103,7 +103,7 @@ const generateActions = async (buildsTemplate)=>{
           name: ${pagesName}${now}
           path: \${{ runner.temp }}/artifact.tar
           retention-days: 90
-          if-no-files-found: error
+          if-no-files-found: warn # default: error
 
       - name: Deploy to GitHub Pages
         if: \${{env.built}} == true
