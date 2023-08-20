@@ -60,7 +60,7 @@
       - name: Upload artifact
         uses: actions/upload-artifact@v1
         with:
-          name: onepisya-github-pages-1692552334825
+          name: onepisya-github-pages-1692552696838
           path: dist/
 
     deploy:
@@ -79,7 +79,7 @@
           id: deployment
           uses: actions/deploy-pages@v2
           with:
-            artifact_name: onepisya-github-pages-1692552334825
+            artifact_name: onepisya-github-pages-1692552696838
         - name: show messages
           run: |
             echo ${{ steps.deployment.outputs.page_url }}
