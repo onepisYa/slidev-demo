@@ -39,11 +39,17 @@ const generateActions = async (buildsTemplate)=>{
       branches:
         - main
   jobs:
-    build:
+    deploy:
       runs-on: ubuntu-latest
+      permissions:
+        pages: write
+        id-token: write
       env:
         LastArtiFact: onepisya-github-pages-${await getLastBuild()}
         built: false
+      environment:
+        name: ${env}
+        url: \${{ steps.deployment.outputs.page_url }}
       # 缓存 
       steps:
       - uses: actions/checkout@v3
@@ -72,30 +78,18 @@ const generateActions = async (buildsTemplate)=>{
           name: ${pagesName}${now}
           path: dist/
 
-    deploy:
-      needs: build
-      permissions:
-        pages: write
-        id-token: write
-  
-      environment:
-        name: ${env}
-        url: \${{ steps.deployment.outputs.page_url }}
-  
-      runs-on: ubuntu-latest
-      steps:
-        - name: Debug
-          run: |
-            echo "any_changed: \${{env.built}}"
-        - name: Deploy to GitHub Pages
-          if: env.built == true
-          id: deployment
-          uses: actions/deploy-pages@v2
-          with:
-            artifact_name: ${pagesName}${now}
-        - name: show messages
-          run: |
-            echo \${{ steps.deployment.outputs.page_url }}
+      - name: Debug
+        run: |
+          echo "any_changed: \${{env.built}}"
+      - name: Deploy to GitHub Pages
+        if: env.built == true
+        id: deployment
+        uses: actions/deploy-pages@v2
+        with:
+          artifact_name: ${pagesName}${now}
+      - name: show messages
+        run: |
+          echo \${{ steps.deployment.outputs.page_url }}
   `
   }
 
