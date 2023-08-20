@@ -70,7 +70,7 @@
         id-token: write
   
       environment:
-        name: onepisya-github-pages-1692553812532
+        name: github-pages
         url: ${{ steps.deployment.outputs.page_url }}
   
       runs-on: ubuntu-latest
