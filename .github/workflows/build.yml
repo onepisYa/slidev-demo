@@ -60,7 +60,7 @@
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: onepisya-github-pages-1692549793523
+          name: onepisya-github-pages-1692550605642
           path: dist/
           retention-days: 90
 
@@ -71,7 +71,7 @@
         id-token: write
   
       environment:
-        name: github-pages
+        name: onepisya-github-pages
         url: ${{ steps.deployment.outputs.page_url }}
   
       runs-on: ubuntu-latest
@@ -80,7 +80,7 @@
           id: deployment
           uses: actions/deploy-pages@v2
           with:
-            artifact_name: onepisya-github-pages-1692549793523
+            artifact_name: onepisya-github-pages-1692550605642
         - name: show messages
           run: |
             echo ${{ steps.deployment.outputs.page_url }}

@@ -76,7 +76,7 @@ const generateActions = async (buildsTemplate)=>{
         id-token: write
   
       environment:
-        name: github-pages
+        name: ${env}
         url: \${{ steps.deployment.outputs.page_url }}
   
       runs-on: ubuntu-latest
