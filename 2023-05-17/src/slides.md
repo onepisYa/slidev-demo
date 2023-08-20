@@ -15,7 +15,7 @@ routerMode: hash
 </h1>
 
 <div uppercase tracking-widest op50>
-Anthony Fu    Anthony Fu
+Anthony Fu   Anthony Fu
 </div>
 </div>
 
@@ -23,7 +23,6 @@ Anthony Fu    Anthony Fu
   <div>GitHub Maintainer Summit</div>
   <div text-sm opacity-50>May 17th, 2023</div>
 </div>
-Onepisya
 
 
 ---
