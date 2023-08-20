@@ -78,18 +78,22 @@ const generateActions = async (buildsTemplate)=>{
 
       - name: Tar Files # use upload-pages-artifact@v1 source code, i just need a linux
         shell: sh
-        if: \${{env.built}} == true
         run: |
-            chmod -c -R +rX "$INPUT_PATH" | while read line; do
-              echo "::warning title=Invalid file permissions automatically fixed::$line"
-            done
-            tar \
-              --dereference --hard-dereference \
-              --directory "$INPUT_PATH" \
-              -cvf "$RUNNER_TEMP/artifact.tar" \
-              --exclude=.git \
-              --exclude=.github \
-              .
+            if [ "\${{ env.built }}" == "true" ]; then
+              # compress files
+              chmod -c -R +rX "$INPUT_PATH" | while read line; do
+                echo "::warning title=Invalid file permissions automatically fixed::$line"
+              done
+              tar \
+                --dereference --hard-dereference \
+                --directory "$INPUT_PATH" \
+                -cvf "$RUNNER_TEMP/artifact.tar" \
+                --exclude=.git \
+                --exclude=.github \
+                .
+            else
+              echo "Skipping compress file"
+            fi  
 
       - name: Upload artifact
         if: \${{env.built}} == true

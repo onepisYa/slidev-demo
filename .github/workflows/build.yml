@@ -75,19 +75,23 @@
 
       - name: Tar Files # use upload-pages-artifact@v1 source code, i just need a linux
         shell: sh
-        if: ${{env.built}} == true
         run: |
-            chmod -c -R +rX "$INPUT_PATH" | while read line; do
-              echo "::warning title=Invalid file permissions automatically fixed::$line"
-            done
-            tar               --dereference --hard-dereference               --directory "$INPUT_PATH"               -cvf "$RUNNER_TEMP/artifact.tar"               --exclude=.git               --exclude=.github               .
+            if [ "${{ env.built }}" == "true" ]; then
+              # compress files
+              chmod -c -R +rX "$INPUT_PATH" | while read line; do
+                echo "::warning title=Invalid file permissions automatically fixed::$line"
+              done
+              tar                 --dereference --hard-dereference                 --directory "$INPUT_PATH"                 -cvf "$RUNNER_TEMP/artifact.tar"                 --exclude=.git                 --exclude=.github                 .
+            else
+              echo "Skipping compress file"
+            fi  
 
       - name: Upload artifact
         if: ${{env.built}} == true
         id: upload
         uses: actions/upload-artifact@v3
         with:
-          name: onepisya-github-pages-1692567191417
+          name: onepisya-github-pages-1692567584269
           path: ${{ runner.temp }}/artifact.tar
           retention-days: 90
           if-no-files-found: error
@@ -97,7 +101,7 @@
         id: deployment
         uses: actions/deploy-pages@v2
         with:
-          artifact_name: onepisya-github-pages-1692567191417
+          artifact_name: onepisya-github-pages-1692567584269
       - name: show messages
         run: |
           echo ${{ steps.deployment.outputs.page_url }}
