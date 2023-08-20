@@ -11,7 +11,7 @@
         pages: write
         id-token: write
       env:
-        LastArtiFact: onepisya-github-pages-1692557465484
+        LastArtiFact: onepisya-github-pages-1692564433922
         built: false
       environment:
         name: onepisya-github-pages
@@ -68,23 +68,24 @@
           echo "any_changed: ${{ steps.changed-2023-05-17.outputs.any_changed }}"
         
       # ============ 生成结束 ==============
-      - name: Upload artifact
-        if: ${{env.built}} == true
-        id: upload
-        uses: actions/upload-pages-artifact@v1
-        with:
-          name: onepisya-github-pages-1692563531687
-          path: dist/
-
       - name: Debug
         run: |
           echo "built: ${{env.built}}"
+
+      - name: Upload artifact
+        if: ${{env.built}} == true
+        id: upload-artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          name: onepisya-github-pages-1692564465373
+          path: dist/
+
       - name: Deploy to GitHub Pages
         if: ${{env.built}} == true
         id: deployment
         uses: actions/deploy-pages@v2
         with:
-          artifact_name: onepisya-github-pages-1692563531687
+          artifact_name: onepisya-github-pages-1692564465373
       - name: show messages
         run: |
           echo ${{ steps.deployment.outputs.page_url }}

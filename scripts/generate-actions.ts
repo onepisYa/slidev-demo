@@ -71,17 +71,18 @@ const generateActions = async (buildsTemplate)=>{
             pnpm install
       # ============ 脚本自动生成 ==============${buildsTemplate}
       # ============ 生成结束 ==============
+      - name: Debug
+        run: |
+          echo "built: \${{env.built}}"
+
       - name: Upload artifact
         if: \${{env.built}} == true
-        id: upload
+        id: upload-artifact
         uses: actions/upload-pages-artifact@v1
         with:
           name: ${pagesName}${now}
           path: dist/
 
-      - name: Debug
-        run: |
-          echo "built: \${{env.built}}"
       - name: Deploy to GitHub Pages
         if: \${{env.built}} == true
         id: deployment
