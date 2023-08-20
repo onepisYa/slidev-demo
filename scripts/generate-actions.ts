@@ -123,7 +123,6 @@ const bases = (await Promise.all(
 ))
   .filter(Boolean)
 
-
 const builds = bases
   .flatMap(({ base, pdfFile, dir }) => {
     // console.log('base', 'pdfFile', 'dir')
