@@ -58,9 +58,9 @@
         
       # ============ 生成结束 ==============
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v1
         with:
-          name: onepisya-github-pages-1692551511903
+          name: onepisya-github-pages-1692552076386
           path: dist/
           retention-days: 90
 
@@ -78,9 +78,9 @@
       steps:
         - name: Deploy to GitHub Pages
           id: deployment
-          uses: actions/deploy-pages@v1
+          uses: actions/deploy-pages@v2
           with:
-            artifact_name: onepisya-github-pages-1692551511903
+            artifact_name: onepisya-github-pages-1692552076386
         - name: show messages
           run: |
             echo ${{ steps.deployment.outputs.page_url }}
