@@ -60,9 +60,8 @@
       - name: Upload artifact
         uses: actions/upload-artifact@v1
         with:
-          name: onepisya-github-pages-1692552076386
+          name: onepisya-github-pages-1692552334825
           path: dist/
-          retention-days: 90
 
     deploy:
       needs: build
@@ -80,7 +79,7 @@
           id: deployment
           uses: actions/deploy-pages@v2
           with:
-            artifact_name: onepisya-github-pages-1692552076386
+            artifact_name: onepisya-github-pages-1692552334825
         - name: show messages
           run: |
             echo ${{ steps.deployment.outputs.page_url }}

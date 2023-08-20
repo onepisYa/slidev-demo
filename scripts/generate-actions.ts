@@ -67,7 +67,6 @@ const generateActions = async (buildsTemplate)=>{
         with:
           name: ${pagesName}${now}
           path: dist/
-          retention-days: 90
 
     deploy:
       needs: build
