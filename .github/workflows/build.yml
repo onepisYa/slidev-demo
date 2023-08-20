@@ -56,10 +56,10 @@
         
       # ============ 生成结束 ==============
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-artifact@v3
         with:
-         name: github-pages
-         path: dist/
+          name: github-pages
+          path: dist/
   
     deploy:
       needs: build

@@ -5,7 +5,7 @@ css: unocss
 colorSchema: dark
 transition: fade-out
 growSize: 1.5
-routerMode: 'hash'
+routerMode: hash
 ---
 
 <div mt--2>
@@ -23,6 +23,8 @@ Anthony Fu
   <div>GitHub Maintainer Summit</div>
   <div text-sm opacity-50>May 17th, 2023</div>
 </div>
+Onepisya
+
 
 ---
 layout: intro
@@ -73,6 +75,8 @@ growSize: 1.5
 <h1 class="text-5xl!" w-200>I Get</h1>
 <h1 class="text-5xl!">A Lot of Notifications</h1>
 <h1 class="text-5xl! font-bold">Everyday</h1>
+<p class="text-red-100">It's my life.</p>
+
 
 ---
 layout: center
