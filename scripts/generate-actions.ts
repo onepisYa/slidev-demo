@@ -63,7 +63,7 @@ const generateActions = async (buildsTemplate)=>{
       # ============ 脚本自动生成 ==============${buildsTemplate}
       # ============ 生成结束 ==============
       - name: Upload artifact
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v3
         with:
           name: ${pagesName}${now}
           path: dist/
@@ -83,7 +83,7 @@ const generateActions = async (buildsTemplate)=>{
       steps:
         - name: Deploy to GitHub Pages
           id: deployment
-          uses: actions/deploy-pages@v2
+          uses: actions/deploy-pages@v1
           with:
             artifact_name: ${pagesName}${now}
         - name: show messages
