@@ -56,6 +56,14 @@ const generateActions = async (buildsTemplate)=>{
           key: \${{ runner.os }}-\${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             \${{ runner.os }}-
+      - name: Cache dist 
+        id: cache
+        uses: actions/cache@v2
+        with:
+          path: dist/
+          key: dist-\${{ hashFiles('**/dist') }}
+          restore-keys: |
+            dist-
       - name: Install dependencies
         run: |
             npm install -g pnpm
@@ -63,6 +71,7 @@ const generateActions = async (buildsTemplate)=>{
       # ============ 脚本自动生成 ==============${buildsTemplate}
       # ============ 生成结束 ==============
       - name: Upload artifact
+        if: steps.cache.outputs.cache-hit != 'true'
         uses: actions/upload-pages-artifact@v1
         with:
           name: ${pagesName}${now}

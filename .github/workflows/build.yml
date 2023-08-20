@@ -24,16 +24,18 @@
           key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-
-      - name: Install dependencies
-        run: |
-            npm install -g pnpm
-            pnpm install
       - name: Cache dist 
         id: cache
         uses: actions/cache@v2
         with:
-          path: dist
-          key: ${{ runner.os }}-${{ hashFiles('**/dist') }}
+          path: dist/
+          key: dist-${{ hashFiles('**/dist') }}
+          restore-keys: |
+            dist-
+      - name: Install dependencies
+        run: |
+            npm install -g pnpm
+            pnpm install
       # ============ 脚本自动生成 ==============   
       - uses: tj-actions/changed-files@v35
         id: changed-2022-12-10
@@ -47,7 +49,8 @@
       - name: Debug
         run: |
           echo "any_changed: ${{ steps.changed-2022-12-10.outputs.any_changed }}"
-
+        
+   
       - uses: tj-actions/changed-files@v35
         id: changed-2023-05-17
         # 文件修改检测
@@ -62,12 +65,11 @@
           echo "any_changed: ${{ steps.changed-2023-05-17.outputs.any_changed }}"
         
       # ============ 生成结束 ==============
-
       - name: Upload artifact
         if: steps.cache.outputs.cache-hit != 'true'
         uses: actions/upload-pages-artifact@v1
         with:
-          name: onepisya-github-pages-1692557483823
+          name: onepisya-github-pages-1692560780218
           path: dist/
 
     deploy:
@@ -86,7 +88,7 @@
           id: deployment
           uses: actions/deploy-pages@v2
           with:
-            artifact_name: onepisya-github-pages-1692557483823
+            artifact_name: onepisya-github-pages-1692560780218
         - name: show messages
           run: |
             echo ${{ steps.deployment.outputs.page_url }}
