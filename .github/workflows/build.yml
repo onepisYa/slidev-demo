@@ -58,9 +58,10 @@
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: github-pages
+          name: onepisya-github-pages-1692547971604
           path: dist/
-  
+          retention-days: 90
+
     deploy:
       needs: build
       permissions:
