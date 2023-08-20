@@ -15,7 +15,7 @@ routerMode: hash
 </h1>
 
 <div uppercase tracking-widest op50>
-Anthony Fu     Anthony Fu
+Anthony Fu   Anthony Fu
 </div>
 </div>
 

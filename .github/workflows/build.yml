@@ -1,71 +1,86 @@
-name: Build
-on: 
-  push:
-    branches:
-      - main
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    # 缓存 
-    steps:
-    - uses: actions/checkout@v3
 
-    - uses: actions/setup-node@v3
-      with:
-        node-version: 'lts/*'
+  name: Build
+  on: 
+    push:
+      branches:
+        - main
+  jobs:
+    build:
+      runs-on: ubuntu-latest
+      env:
+        LastArtiFact: onepisya-github-pages-undefined
+      # 缓存 
+      steps:
+      - uses: actions/checkout@v3
 
-    - name: Cache pnpm modules
-      uses: actions/cache@v2
-      with:
-        path: ~/.pnpm-store
-        key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-        restore-keys: |
-          ${{ runner.os }}-
-    - name: Install dependencies
-      run: |
-          npm install -g pnpm
-          pnpm install
-
-    - uses: tj-actions/changed-files@v35
-      id: changed
-      # 文件修改检测
-      with:
-        files: |
-          **/src/*
-    
-    # ============ 脚本自动生成 ==============   
-    - name: Build 2022-12-10
-      if: steps.changed.outputs.any_changed == 'true'
-      run: pnpm -C 2022-12-10/src run build
- 
-    - name: Build 2023-05-17
-      if: steps.changed.outputs.any_changed == 'true'
-      run: pnpm -C 2023-05-17/src run build
-    # ============ 生成结束 ==============
-    - name: Debug
-      run: |
-        echo "any_changed: ${{ steps.changed.outputs.any_changed }}"
-    - name: Upload artifact
-      uses: actions/upload-pages-artifact@v1
-      with:
-       name: github-pages
-       path: dist/
-
-  deploy:
-    needs: build
-    permissions:
-      pages: write
-      id-token: write
-
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v2
-      - name: show messages
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 'lts/*'
+  
+      - name: Cache pnpm modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-
+      - name: Install dependencies
         run: |
-          echo ${{ steps.deployment.outputs.page_url }}
+            npm install -g pnpm
+            pnpm install
+      # ============ 脚本自动生成 ==============   
+      - uses: tj-actions/changed-files@v35
+        id: changed-2022-12-10
+        # 文件修改检测
+        with:
+          files: |
+            2022-12-10/src/*
+      - name: Build 2022-12-10
+        if: steps.changed-2022-12-10.outputs.any_changed == 'true'
+        run: pnpm -C 2022-12-10/src run build
+      - name: Debug
+        run: |
+          echo "any_changed: ${{ steps.changed-2022-12-10.outputs.any_changed }}"
+        
+   
+      - uses: tj-actions/changed-files@v35
+        id: changed-2023-05-17
+        # 文件修改检测
+        with:
+          files: |
+            2023-05-17/src/*
+      - name: Build 2023-05-17
+        if: steps.changed-2023-05-17.outputs.any_changed == 'true'
+        run: pnpm -C 2023-05-17/src run build
+      - name: Debug
+        run: |
+          echo "any_changed: ${{ steps.changed-2023-05-17.outputs.any_changed }}"
+        
+      # ============ 生成结束 ==============
+      - name: Upload artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: onepisya-github-pages-1692553812532
+          path: dist/
+
+    deploy:
+      needs: build
+      permissions:
+        pages: write
+        id-token: write
+  
+      environment:
+        name: onepisya-github-pages
+        url: ${{ steps.deployment.outputs.page_url }}
+  
+      runs-on: ubuntu-latest
+      steps:
+        - name: Deploy to GitHub Pages
+          id: deployment
+          uses: actions/deploy-pages@v2
+          with:
+            artifact_name: onepisya-github-pages-1692553812532
+        - name: show messages
+          run: |
+            echo ${{ steps.deployment.outputs.page_url }}
+  
