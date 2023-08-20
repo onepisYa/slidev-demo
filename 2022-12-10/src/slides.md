@@ -14,7 +14,7 @@ routerMode: 'hash'
 </p>
 
 <div uppercase text-sm tracking-widest>
-Anthony Fu Anthony Fu  
+Anthony Fu
 </div>
 
 <div abs-bl mx-14 my-12 flex flex-col>
