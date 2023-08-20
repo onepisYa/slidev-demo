@@ -9,6 +9,7 @@
       runs-on: ubuntu-latest
       env:
         LastArtiFact: onepisya-github-pages-1692557465484
+        built: false
       # 缓存 
       steps:
       - uses: actions/checkout@v3
@@ -24,14 +25,6 @@
           key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-
-      - name: Cache dist 
-        id: cache
-        uses: actions/cache@v2
-        with:
-          path: ./
-          key: dist-${{ hashFiles('dist') }}
-          restore-keys: |
-            dist-
       - name: Install dependencies
         run: |
             npm install -g pnpm
@@ -45,7 +38,9 @@
             2022-12-10/src/*
       - name: Build 2022-12-10
         if: steps.changed-2022-12-10.outputs.any_changed == 'true'
-        run: pnpm -C 2022-12-10/src run build
+        run: |
+          pnpm -C 2022-12-10/src run build
+          echo "built=true" >> $GITHUB_ENV
       - name: Debug
         run: |
           echo "any_changed: ${{ steps.changed-2022-12-10.outputs.any_changed }}"
@@ -59,17 +54,19 @@
             2023-05-17/src/*
       - name: Build 2023-05-17
         if: steps.changed-2023-05-17.outputs.any_changed == 'true'
-        run: pnpm -C 2023-05-17/src run build
+        run: |
+          pnpm -C 2023-05-17/src run build
+          echo "built=true" >> $GITHUB_ENV
       - name: Debug
         run: |
           echo "any_changed: ${{ steps.changed-2023-05-17.outputs.any_changed }}"
         
       # ============ 生成结束 ==============
       - name: Upload artifact
-        if: steps.cache.outputs.cache-hit != 'true'
+        if: env.built == true
         uses: actions/upload-pages-artifact@v1
         with:
-          name: onepisya-github-pages-1692560780218
+          name: onepisya-github-pages-1692562021479
           path: dist/
 
     deploy:
@@ -88,7 +85,7 @@
           id: deployment
           uses: actions/deploy-pages@v2
           with:
-            artifact_name: onepisya-github-pages-1692560780218
+            artifact_name: onepisya-github-pages-1692562021479
         - name: show messages
           run: |
             echo ${{ steps.deployment.outputs.page_url }}

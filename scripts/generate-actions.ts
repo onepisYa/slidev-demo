@@ -14,7 +14,9 @@ const generateBuildPackage = (dir)=>{
             ${dir}/src/*
       - name: Build ${dir}
         if: steps.changed-${dir}.outputs.any_changed == 'true'
-        run: pnpm -C ${dir}/src run build
+        run: |
+          pnpm -C ${dir}/src run build
+          echo "built=true" >> $GITHUB_ENV
       - name: Debug
         run: |
           echo "any_changed: \${{ steps.changed-${dir}.outputs.any_changed }}"
@@ -41,6 +43,7 @@ const generateActions = async (buildsTemplate)=>{
       runs-on: ubuntu-latest
       env:
         LastArtiFact: onepisya-github-pages-${await getLastBuild()}
+        built: false
       # 缓存 
       steps:
       - uses: actions/checkout@v3
@@ -56,14 +59,6 @@ const generateActions = async (buildsTemplate)=>{
           key: \${{ runner.os }}-\${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             \${{ runner.os }}-
-      - name: Cache dist 
-        id: cache
-        uses: actions/cache@v2
-        with:
-          path: dist/
-          key: dist-\${{ hashFiles('**/dist') }}
-          restore-keys: |
-            dist-
       - name: Install dependencies
         run: |
             npm install -g pnpm
@@ -71,7 +66,7 @@ const generateActions = async (buildsTemplate)=>{
       # ============ 脚本自动生成 ==============${buildsTemplate}
       # ============ 生成结束 ==============
       - name: Upload artifact
-        if: steps.cache.outputs.cache-hit != 'true'
+        if: env.built == true
         uses: actions/upload-pages-artifact@v1
         with:
           name: ${pagesName}${now}
