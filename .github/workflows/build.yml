@@ -13,6 +13,7 @@
       env:
         LastArtiFact: onepisya-github-pages-1692564433922
         built: false
+        INPUT_PATH: "/dist/"
       environment:
         name: onepisya-github-pages
         url: ${{ steps.deployment.outputs.page_url }}
@@ -79,15 +80,13 @@
               echo "::warning title=Invalid file permissions automatically fixed::$line"
             done
             tar               --dereference --hard-dereference               --directory "$INPUT_PATH"               -cvf "$RUNNER_TEMP/artifact.tar"               --exclude=.git               --exclude=.github               .
-            env:
-              INPUT_PATH: "/dist/"
 
       - name: Upload artifact
         if: ${{env.built}} == true
         id: upload
         uses: actions/upload-artifact@v3
         with:
-          name: onepisya-github-pages-1692566718262
+          name: onepisya-github-pages-1692566918884
           path: ${{ runner.temp }}/artifact.tar
           retention-days: 90
           if-no-files-found: error
@@ -97,7 +96,7 @@
         id: deployment
         uses: actions/deploy-pages@v2
         with:
-          artifact_name: onepisya-github-pages-1692566718262
+          artifact_name: onepisya-github-pages-1692566918884
       - name: show messages
         run: |
           echo ${{ steps.deployment.outputs.page_url }}
