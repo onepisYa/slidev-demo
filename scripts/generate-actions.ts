@@ -14,9 +14,7 @@ const generateBuildPackage = (dir)=>{
             ${dir}/src/*
       - name: Build ${dir}
         if: steps.changed-${dir}.outputs.any_changed == 'true'
-        run: |
-          pnpm -C ${dir}/src run build
-          echo "built=true" >> $GITHUB_ENV
+        run: pnpm -C ${dir}/src run build
       - name: Debug
         run: |
           echo "any_changed: \${{ steps.changed-${dir}.outputs.any_changed }}"
@@ -39,18 +37,10 @@ const generateActions = async (buildsTemplate)=>{
       branches:
         - main
   jobs:
-    deploy:
+    build:
       runs-on: ubuntu-latest
-      permissions:
-        pages: write
-        id-token: write
       env:
         LastArtiFact: onepisya-github-pages-${await getLastBuild()}
-        built: false
-        INPUT_PATH: "/dist/"
-      environment:
-        name: ${env}
-        url: \${{ steps.deployment.outputs.page_url }}
       # 缓存 
       steps:
       - uses: actions/checkout@v3
@@ -72,48 +62,33 @@ const generateActions = async (buildsTemplate)=>{
             pnpm install
       # ============ 脚本自动生成 ==============${buildsTemplate}
       # ============ 生成结束 ==============
-      - name: Debug
-        run: |
-          echo "built: \${{env.built}}"
-
-      - name: Tar Files # use upload-pages-artifact@v1 source code, i just need a linux
-        shell: sh
-        run: |
-            if [ -v GITHUB_ENV[built] == "true" ]; then
-              # compress files
-              chmod -c -R +rX "$INPUT_PATH" | while read line; do
-                echo "::warning title=Invalid file permissions automatically fixed::$line"
-              done
-              tar \
-                --dereference --hard-dereference \
-                --directory "$INPUT_PATH" \
-                -cvf "$RUNNER_TEMP/artifact.tar" \
-                --exclude=.git \
-                --exclude=.github \
-                .
-            else
-              echo "Skipping compress file"
-            fi  
-
       - name: Upload artifact
-        if: \${{env.built}} == true
-        id: upload
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-pages-artifact@v1 
+        # have not skipped, but it is designed to fail if there is no artifact to upload
         with:
           name: ${pagesName}${now}
-          path: \${{ runner.temp }}/artifact.tar
-          retention-days: 90
-          if-no-files-found: warn # default: error
+          path: dist/
 
-      - name: Deploy to GitHub Pages
-        if: \${{env.built}} == true
-        id: deployment
-        uses: actions/deploy-pages@v2
-        with:
-          artifact_name: ${pagesName}${now}
-      - name: show messages
-        run: |
-          echo \${{ steps.deployment.outputs.page_url }}
+    deploy:
+      needs: build
+      permissions:
+        pages: write
+        id-token: write
+  
+      environment:
+        name: ${env}
+        url: \${{ steps.deployment.outputs.page_url }}
+  
+      runs-on: ubuntu-latest
+      steps:
+        - name: Deploy to GitHub Pages
+          id: deployment
+          uses: actions/deploy-pages@v2
+          with:
+            artifact_name: ${pagesName}${now}
+        - name: show messages
+          run: |
+            echo \${{ steps.deployment.outputs.page_url }}
   `
   }
 
@@ -146,6 +121,7 @@ const bases = (await Promise.all(
   }),
 ))
   .filter(Boolean)
+
 
 const builds = bases
   .flatMap(({ base, pdfFile, dir }) => {
