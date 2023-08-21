@@ -15,7 +15,7 @@ routerMode: hash
 </h1>
 
 <div uppercase tracking-widest op50>
-  Anthony Fu  Anthony Fu
+  Anthony Fu
 </div>
 </div>
 
@@ -74,7 +74,7 @@ growSize: 1.5
 <h1 class="text-5xl!" w-200>I Get</h1>
 <h1 class="text-5xl!">A Lot of Notifications</h1>
 <h1 class="text-5xl! font-bold">Everyday</h1>
-<p class="text-red-100">It's my life.</p>
+
 
 
 ---
