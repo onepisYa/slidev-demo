@@ -39,6 +39,11 @@ const generateActions = async (buildsTemplate)=>{
   jobs:
     build:
       runs-on: ubuntu-latest
+      permissions:
+        pages: write
+        id-token: write
+      environment:
+        name: onepisya-github-pages
       env:
         LastArtiFact: onepisya-github-pages-${await getLastBuild()}
       # 缓存 
@@ -69,26 +74,13 @@ const generateActions = async (buildsTemplate)=>{
           name: ${pagesName}${now}
           path: dist/
 
-    deploy:
-      needs: build
-      permissions:
-        pages: write
-        id-token: write
-  
-      environment:
-        name: ${env}
-        url: \${{ steps.deployment.outputs.page_url }}
-  
-      runs-on: ubuntu-latest
-      steps:
-        - name: Deploy to GitHub Pages
-          id: deployment
-          uses: actions/deploy-pages@v2
-          with:
-            artifact_name: ${pagesName}${now}
-        - name: show messages
-          run: |
-            echo \${{ steps.deployment.outputs.page_url }}
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3.9.3 # tag: Better
+        with:
+          publish_branch: gh-pages  # default: gh-pages
+          personal_token: \${{ secrets.PERSONAL_TOKEN }}
+          publish_dir: ./dist
+          allow_empty_commit: true
   `
   }
 

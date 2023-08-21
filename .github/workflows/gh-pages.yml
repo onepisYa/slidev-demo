@@ -6,6 +6,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: onepisya-github-pages
     env:
       LastArtiFact: onepisya-github-pages-1692564433922
     # 缓存 
@@ -63,19 +68,11 @@ jobs:
         name: onepisya-github-pages-1692569802276
         path: dist/
 
-  deploy:
-    needs: build
-    permissions:
-      pages: write
-      id-token: write
-
-    environment:
-      name: onepisya-github-pages
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3.9.3 # tag: Better
-        with:
-          publish_branch: gh-pages  # default: gh-pages
-          personal_token: ${{ secrets.PERSONAL_TOKEN }}
-          publish_dir: ./dist
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3.9.3 # tag: Better
+      with:
+        publish_branch: gh-pages  # default: gh-pages
+        personal_token: ${{ secrets.PERSONAL_TOKEN }}
+        publish_dir: ./dist
+        allow_empty_commit: true
+        
