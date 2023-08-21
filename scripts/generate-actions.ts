@@ -22,7 +22,7 @@ const generateBuildPackage = (dir)=>{
   }
 
 const getLastBuild = async ()=>{
-  const buildYml = await fs.readFile('./.github/workflows/build.yml', 'utf-8');
+  const buildYml = await fs.readFile('./.github/workflows/gh-pages.yml', 'utf-8');
   const lastBuild = buildYml.match(new RegExp(`${pagesName}(\\d+)`))?.[1]
   return lastBuild
 }
@@ -81,6 +81,8 @@ const generateActions = async (buildsTemplate)=>{
           personal_token: \${{ secrets.PERSONAL_TOKEN }}
           publish_dir: ./dist
           allow_empty_commit: true
+          keep_files: true
+          # force_orphan: true
   `
   }
 
@@ -134,6 +136,6 @@ const builds = bases
 
 
 const actions = await generateActions(builds)
-await fs.writeFile('./.github/workflows/build.yml', actions, 'utf-8')
+await fs.writeFile('./.github/workflows/gh-pages.yml', actions, 'utf-8')
 
 console.log("You generated actions!")
