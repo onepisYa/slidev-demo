@@ -75,12 +75,26 @@
         run: |
           echo "any_changed: ${{ steps.changed-2023-08-22.outputs.any_changed }}"
         
+   
+      - uses: tj-actions/changed-files@v35
+        id: changed-2023-08-23
+        # 文件修改检测
+        with:
+          files: |
+            2023-08-23/src/*
+      - name: Build 2023-08-23
+        if: steps.changed-2023-08-23.outputs.any_changed == 'true'
+        run: pnpm -C 2023-08-23/src run build
+      - name: Debug
+        run: |
+          echo "any_changed: ${{ steps.changed-2023-08-23.outputs.any_changed }}"
+        
       # ============ 生成结束 ==============
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1 
         # have not skipped, but it is designed to fail if there is no artifact to upload
         with:
-          name: onepisya-github-pages-1692677407995
+          name: onepisya-github-pages-1692706669660
           path: dist/
 
       - name: Deploy to GitHub Pages
