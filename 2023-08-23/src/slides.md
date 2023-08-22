@@ -7,7 +7,7 @@ transition: fade-out
 growSize: 1.5
 routerMode: hash
 # enable monaco editor, can be boolean, 'dev' or 'build'
-monaco: 'build'
+monaco: true
 ---
 
 
