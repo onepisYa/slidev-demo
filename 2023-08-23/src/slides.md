@@ -6,10 +6,9 @@ colorSchema: dark
 transition: fade-out
 growSize: 1.5
 routerMode: hash
-# enable monaco editor, can be boolean, 'dev' or 'build'
-monaco: true
+monaco: False
+title: Learn Slidev
 ---
-
 
 # Learn Slidev
 
@@ -28,6 +27,16 @@ onepisYa
   <div text-sm opacity-50>Aug 23th, 2023</div>
 </div>
 
+---
+layout: intro
+growX: 70
+growY: 40
+style: 'padding-left: 8rem;'
+---
+
+<div class="text-2xl mb-2">Content</div>
+
+<Toc/>
 
 
 ---
@@ -99,30 +108,30 @@ growSize: 1.5
 
 
 
-```md
-# Slidev
+```md 
+  # Slidev
 
-Hello, World!
+  Hello, World!
 
----
+  ---
 
-# Page 2
+  # Page 2
 
-Directly use code blocks for highlighting
+  Directly use code blocks for highlighting
 
-//```ts
-console.log('Hello, World!')
-//```
+  //```ts
+  console.log('Hello, World!')
+  //```
 
----
+  ---
 
-# Page 3
+  # Page 3
 
-You can directly use Windi CSS and Vue components to style and enrich your slides.
+  You can directly use Windi CSS and Vue components to style and enrich your slides.
 
-<div class="p-3">
-  <Tweet id="20" />
-</div>
+  <div class="p-3">
+    <Tweet id="20" />
+  </div>
 
 ```
 
@@ -156,29 +165,29 @@ growSize: 1.5
 
 
 ```md
----
-layout: cover
----
+  ---
+  layout: cover
+  ---
 
-# Slidev
+  # Slidev
 
-This is the cover page.
+  This is the cover page.
 
----
-layout: center
-background: './images/background-1.png'
-class: 'text-white'
----
+  ---
+  layout: center
+  background: './images/background-1.png'
+  class: 'text-white'
+  ---
 
-# Page 2
+  # Page 2
 
-This is a page with the layout `center` and a background image.
+  This is a page with the layout `center` and a background image.
 
----
+  ---
 
-# Page 3
+  # Page 3
 
-This is a default page without any additional metadata.
+  This is a default page without any additional metadata.
 
 ```
 
@@ -204,6 +213,7 @@ layout: default
 growX: 50
 growY: 0
 growSize: 1.5
+title: Code Blocks Example
 ---
 
 <div class="text-bg">Example</div>
@@ -307,7 +317,7 @@ growSize: 1.5
 
 <div class="text-bg">Effect</div>
 
-# Effect
+# Line Highlighting Effect
 
 ## lines:true
 
@@ -330,4 +340,3 @@ growSize: 1.5
     return computed(() => unref(a) + unref(b))
   }
 ```
-

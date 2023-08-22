@@ -94,7 +94,7 @@
         uses: actions/upload-pages-artifact@v1 
         # have not skipped, but it is designed to fail if there is no artifact to upload
         with:
-          name: onepisya-github-pages-1692706915179
+          name: onepisya-github-pages-1692714523496
           path: dist/
 
       - name: Deploy to GitHub Pages
