@@ -3,8 +3,8 @@
   "private": true,
   "scripts": {
     "dev": "slidev",
-    "build": "slidev build --base /slidev-demo/2023/github-notifications/ --out ../../dist/2023/github-notifications",
-    "export": "slidev export --per-slide --output ../2023-05-17-github-notifications-en.pdf",
+    "build": "slidev build --base /slidev-demo/2023/learn-slidev/ --out ../../dist/2023/learn-slidev",
+    "export": "slidev export --per-slide --output ../2023-08-23-learn-slidev-zh.pdf",
     "play": "slidev --remote --tunnel"
   }
 }
