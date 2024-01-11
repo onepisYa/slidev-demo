@@ -19,6 +19,7 @@ export default defineComponent({
 </script>
 <template>
   <div class="scrollable">
+    <div class="p-y-4">利率: <input v-model.number="rate" placeholder="请输入利率"/></div>
   <table class="table">
     <caption
       style=" vertical-align: middle; text-align: center; line-height:80px;font-size: 40px;border: 1px solid aliceblue;height: 80px;;">
@@ -107,13 +108,13 @@ td {
   /* 斜边边长 */
   /* Math.sqrt(Math.pow(width, 2) + Math.pow(height, 2)) */
   /* Math.sqrt(Math.pow(150, 2) + Math.pow(80, 2)) = 170 */
-  width: 170px;
+  width: 153px;
   height: 1px;
   background-color: aliceblue;
   /* 旋转角度计算公式 */
   /*  Math.atan(height / width) * 180 / Math.PI  */
   /*  Math.atan(80 / 150) * 180 / Math.PI  = 28.072486935852954 */
-  transform: rotate(28.072486935852954deg);
+  transform: rotate(31.072487deg);
   transform-origin: top left;
 }
 
