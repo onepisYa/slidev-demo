@@ -3,8 +3,8 @@
   "private": true,
   "scripts": {
     "dev": "slidev",
-    "build": "slidev build --base /slidev-demo/2023/happybirthday-xu/ --out ../../dist/2023/happybirthday-xu",
-    "export": "slidev export --per-slide --output ../2023-08-22-happybirthday-xu-en.pdf",
+    "build": "slidev build --base /slidev-demo/2024/free-finance-table/ --out ../../dist/2024/free-finance-table",
+    "export": "slidev export --per-slide --output ../free-finance-table.pdf",
     "play": "slidev --remote --tunnel"
   }
 }
