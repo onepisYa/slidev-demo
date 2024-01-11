@@ -23,5 +23,8 @@
     "pnpm": "^8.6.0",
     "rimraf": "^5.0.1",
     "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "@slidev/theme-seriph": "^0.21.3"
   }
 }
